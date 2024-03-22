@@ -4,7 +4,7 @@ import json, dotenv, os, telebot
 
 os.mkdir("data") if not os.path.exists("data") else None
 
-from config import LOGS_PATH, ADMIN_LIST
+from config import ADMIN_LIST
 from db import Database
 from gpt import GPT
 
