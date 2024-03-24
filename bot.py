@@ -27,7 +27,7 @@ def start_handler(message):
     bot.register_next_step_handler(message, choose_genre)
 
 def filter_choose_genre(message):
-    return message.text.lower() in ["выбрать жанр", "другой жанр"] if not io.get_user_data(message.from_user.id)["is_blocked"] else False
+    return message.text.lower() in ["выбрать жанр", "другой жанр", "начать новую историю"] if not io.get_user_data(message.from_user.id)["is_blocked"] else False
 
 @bot.message_handler(func=filter_choose_genre)
 def choose_genre(message):
@@ -75,7 +75,7 @@ def select_setting(message):
     bot.send_message(user_id, "Отлично! Теперь если хочешь отправь какие-то свои замечания.", reply_markup=io.create_reply_markup(["Продолжить без замечаний"]))
     bot.register_next_step_handler(message, write_story)
 
-#todo: create promting system
+#todo: create promting system, save user's story and by limit stop logic
 def write_story(message):
     user_id = message.from_user.id
     task = message.text
@@ -84,4 +84,10 @@ def write_story(message):
     bot.send_message(user_id, answer+"\n\nПродолжи отрвок.")
     bot.register_next_step_handler(message, write_story) 
 
+def menu(message):
+    user_id = message.from_user.id
+    bot.send_message(user_id, "Выбери действие:", reply_markup=io.create_reply_markup(["Начать новую историю", "Библлиотека историй", "Мои лимиты" , "Помощь", "О боте"]))
+    bot.register_next_step_handler(message, menu)
+
+bot.infinity_polling(none_stop=True)
     
