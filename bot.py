@@ -75,6 +75,7 @@ def select_setting(message):
     bot.send_message(user_id, "Отлично! Теперь если хочешь отправь какие-то свои замечания.", reply_markup=io.create_reply_markup(["Продолжить без замечаний"]))
     bot.register_next_step_handler(message, write_story)
 
+#todo: create promting system
 def write_story(message):
     user_id = message.from_user.id
     task = message.text
