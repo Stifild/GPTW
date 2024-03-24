@@ -72,7 +72,15 @@ class Database:
             "messages": result[6],
         }
         return presult
+    
+    def get_all_users_data(self) -> list[tuple[int, int, int, int, str, str, str]]:
+        sql_query = (
+            f"SELECT * "
+            f"FROM {DB_TABLE_USERS_NAME};"
+        )
 
+        result = self.executer(sql_query)
+        return result
 
     def delete_user(self, user_id: int):
         self.executer(f"DELETE FROM {DB_TABLE_USERS_NAME} WHERE user_id=?", (user_id,))
