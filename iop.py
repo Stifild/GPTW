@@ -22,6 +22,9 @@ class IOP:
     def get_user_data(self, user_id: int) -> dict:
         return db.get_user_data(user_id)
     
+    def get_all_users(self) -> list[tuple]:
+        return db.get_all_users()
+    
     def add_user(self, user_id: int):
         db.add_user(user_id)
     

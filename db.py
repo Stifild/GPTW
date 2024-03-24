@@ -38,7 +38,8 @@ class Database:
             f"tokens INTEGER, "
             f"subject TEXT, "
             f"level TEXT, "
-            f"messages TEXT);"
+            f"messages TEXT"
+            f"is_blocked INTEGER);"
         )
         logging.info(f"Таблица {DB_TABLE_USERS_NAME} создана")
 
@@ -46,8 +47,8 @@ class Database:
     def add_user(self, user_id: int):
         self.executer(
             f"INSERT INTO {DB_TABLE_USERS_NAME} "
-            f"(user_id, sessions) "
-            f"VALUES (?, 0);"
+            f"(user_id, sessions, is_blocked) "
+            f"VALUES (?, 0, 0);"
         )
         logging.info(f"Добавлен пользователь {user_id}")
 
@@ -70,10 +71,11 @@ class Database:
             "subject": result[4],
             "level": result[5],
             "messages": result[6],
+            "is_blocked": result[7]
         }
         return presult
     
-    def get_all_users_data(self) -> list[tuple[int, int, int, int, str, str, str]]:
+    def get_all_users(self) -> list[tuple[int, int, int, int, str, str, str]]:
         sql_query = (
             f"SELECT * "
             f"FROM {DB_TABLE_USERS_NAME};"

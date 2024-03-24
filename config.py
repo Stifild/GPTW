@@ -12,8 +12,11 @@ FOLDER_ID = os.getenv('FOLDER_ID')
 
 GPT_MODEL = "yandexgpt-lite"
 MAX_ONTASK_TOKENS = 50
+TOKENS_ON_SESSION = 100
+MAX_COUNT_OF_SESSIONS = 3
 TEMPERATURE = 0.6
 ADMIN_LIST = [6303315695]
+MAX_USERS = 2
 
 IAM_TOKEN_ENDPOINT = "http://169.254.169.254/computeMetadata/v1/instance/service-accounts/default/token"
 IAM_TOKEN_PATH = "data/token_data.json"
