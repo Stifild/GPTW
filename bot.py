@@ -65,7 +65,5 @@ def select_setting(message):
     bot.register_next_step_handler(message, write_story)
 
 def write_story(message):
-    user_id = message.from_user.id
-    
-    bot.register_next_step_handler(message, write_story)
+    ...
     
