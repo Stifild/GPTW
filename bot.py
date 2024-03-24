@@ -3,7 +3,7 @@ from config import LOGS_PATH
 
 io = iop.IOP()
 
-logging.basicConfig(filename=LOGS_PATH, level=logging.INFO, format='%(asctime)s - %(message)s', filemode="w")
+logging.basicConfig(filename=LOGS_PATH, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filemode="w")
 
 bot = telebot.TeleBot(io.bot_token)
 

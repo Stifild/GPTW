@@ -9,6 +9,9 @@ class GPT:
     def __init__(self):
         self.max_tokens = MAX_ONTASK_TOKENS
         self.temperature = TEMPERATURE
+        self.folder_id = FOLDER_ID
+        self.gpt_model = GPT_MODEL
+        self.tokens_data_path = TOKENS_DATA_PATH
 
     def count_tokens_in_dialogue(self, messages: list) -> int:
         iam_token = io.get_iam_token()
@@ -18,7 +21,7 @@ class GPT:
             'Content-Type': 'application/json'
         }
         data = {
-            "modelUri": f"gpt://{FOLDER_ID}/{GPT_MODEL}/latest",
+            "modelUri": f"gpt://{self.folder_id}/{self.gpt_model}/latest",
             "maxTokens": self.max_tokens,
             "messages": []
         }
@@ -42,7 +45,7 @@ class GPT:
 
     def increment_tokens_by_request(self, messages: list[dict]):
         try:
-            with open(TOKENS_DATA_PATH, "r") as token_file:
+            with open(self.tokens_data_path, "r") as token_file:
                 tokens_count = json.load(token_file)["tokens_count"]
 
         except FileNotFoundError:
@@ -51,7 +54,7 @@ class GPT:
         current_tokens_used = self.count_tokens_in_dialogue(messages)
         tokens_count += current_tokens_used
 
-        with open(TOKENS_DATA_PATH, "w") as token_file:
+        with open(self.tokens_data_path, "w") as token_file:
             json.dump({"tokens_count": tokens_count}, token_file)
 
 
@@ -65,7 +68,7 @@ class GPT:
         }
 
         data = {
-            "modelUri": f"gpt://{FOLDER_ID}/{GPT_MODEL}/latest",
+            "modelUri": f"gpt://{self.folder_id}/{self.gpt_model}/latest",
             "completionOptions": {
                 "stream": False,
                 "temperature": self.temperature,
@@ -90,7 +93,7 @@ class GPT:
 
         else:
             if response.status_code != 200:
-                print("Ошибка при получении ответа:", response.status_code)
+                logging.ERROR("Ошибка при получении ответа:", response.status_code)
             else:
                 result = response.json()['result']['alternatives'][0]['message']['text']
                 messages.append({"role": "assistant", "content": result})
