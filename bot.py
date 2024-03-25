@@ -1,5 +1,5 @@
 import telebot, logging, iop, json
-from config import LOGS_PATH, MAX_USERS
+from config import LOGS_PATH, MAX_USERS, MAX_COUNT_OF_SESSIONS
 
 io = iop.IOP()
 
@@ -87,12 +87,45 @@ def write_story(message):
     answer = io.ask_gpt(user_id, task)
     bot.send_message(user_id, answer+"\n\nПродолжи отрвок.", reply_markup=io.create_reply_markup(["Закончить"]))
     bot.register_next_step_handler(message, write_story)
+    if io.get_user_data(user_id)["tokens"] == 0:
+        bot.send_message(user_id, "Лимит истории исчерпан. Возвращаюсь в меню.")
+        menu(message)
     
+def filter_show_limits(message):
+    return message.text.lower() in ["мои лимиты"] if not io.get_user_data(message.from_user.id)["is_blocked"] else False
+
+@bot.message_handler(func=filter_show_limits)
+def show_limits(message):
+    user_id = message.from_user.id
+    user_data = io.get_user_data(user_id)
+    bot.send_message(user_id, f"Ты начал {user_data['sessions']} историй. У тебя осталось {MAX_COUNT_OF_SESSIONS - user_data['sessions']} историй.")
+    menu(message)
+
+def filter_show_about(message):
+    return message.text.lower() in ["о боте"] if not io.get_user_data(message.from_user.id)["is_blocked"] else False
+
+@bot.message_handler(func=filter_show_about)
+def show_about(message):
+    user_id = message.from_user.id
+    bot.send_message(user_id, "Бот-сценарист создан для помощи в написании историй. Он использует нейросеть для генерации текста. Приятного использования!")
+    menu(message)
+
+def filter_show_library(message):
+    return message.text.lower() in ["библиотека историй"] if not io.get_user_data(message.from_user.id)["is_blocked"] else False
+
+@bot.message_handler(func=filter_show_library)
+def show_library(message):
+    user_id = message.from_user.id
+    if io.get_user_data(user_id)["library"]:
+        bot.send_message(user_id, "Вот твои истории:")
+        for story in json.loads(io.get_user_data(user_id)["library"]):
+            bot.send_message(user_id, story)
+    bot.send_message(user_id, "Библиотека историй пуста. Возвращаюсь в меню.")
+    menu(message)
 
 def menu(message):
     user_id = message.from_user.id
-    bot.send_message(user_id, "Выбери действие:", reply_markup=io.create_reply_markup(["Начать новую историю", "Библлиотека историй", "Мои лимиты" , "Помощь", "О боте"]))
-    bot.register_next_step_handler(message, menu)
+    bot.send_message(user_id, "Выбери действие:", reply_markup=io.create_reply_markup(["Начать новую историю", "Библлиотека историй", "Мои лимиты", "О боте"]))
 
 bot.infinity_polling(none_stop=True)
     
