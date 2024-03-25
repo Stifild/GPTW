@@ -36,10 +36,12 @@ class Database:
             f"user_id INTEGER, "
             f"sessions INTEGER, "
             f"tokens INTEGER, "
-            f"subject TEXT, "
-            f"level TEXT, "
-            f"messages TEXT"
-            f"is_blocked INTEGER);"
+            f"genre TEXT, "
+            f"main_chareckter TEXT, "
+            f"setting TEXT, "
+            f"messages TEXT, "
+            f"is_blocked INTEGER, "
+            f"library TEXT);"
         )
         logging.info(f"Таблица {DB_TABLE_USERS_NAME} создана")
 
