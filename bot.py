@@ -79,10 +79,15 @@ def select_setting(message):
 def write_story(message):
     user_id = message.from_user.id
     task = message.text
+    if task.lower() == "закончить":
+        bot.send_message(user_id, "Возврашаюсь в меню.")
+        menu(message)
+        return
     bot.send_chat_action(user_id, "typing")
     answer = io.ask_gpt(user_id, task)
-    bot.send_message(user_id, answer+"\n\nПродолжи отрвок.")
-    bot.register_next_step_handler(message, write_story) 
+    bot.send_message(user_id, answer+"\n\nПродолжи отрвок.", reply_markup=io.create_reply_markup(["Закончить"]))
+    bot.register_next_step_handler(message, write_story)
+    
 
 def menu(message):
     user_id = message.from_user.id
