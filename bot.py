@@ -120,6 +120,7 @@ def show_library(message):
         bot.send_message(user_id, "Вот твои истории:")
         for story in json.loads(io.get_user_data(user_id)["library"]):
             bot.send_message(user_id, story)
+        menu(message)
     bot.send_message(user_id, "Библиотека историй пуста. Возвращаюсь в меню.")
     menu(message)
 
