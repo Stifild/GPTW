@@ -37,8 +37,9 @@ class IOP:
     def delete_user(self, user_id: int):
         db.delete_user(user_id)
 
-    def get_system_content(self, subject: str, level: str) -> str:
-        ...
+    def get_system_content(self, task: str) -> str:
+        promt = ...
+        return promt
     
     def ask_gpt(self, user_id: int, task: str | None = None) -> str:
         message = json.loads(db.get_user_data(user_id)["messages"])
