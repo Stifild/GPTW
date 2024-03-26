@@ -109,8 +109,8 @@ class GPT:
             response = requests.get(IAM_TOKEN_ENDPOINT, headers=headers)
 
         except Exception as e:
-            print("Не удалось выполнить запрос:", e)
-            print("Токен не получен")
+            logging.error("Не удалось выполнить запрос:", e)
+            logging.info("Токен не получен")
 
         else:
             if response.status_code == 200:
@@ -123,8 +123,8 @@ class GPT:
                     json.dump(token_data, token_file)
 
             else:
-                print("Ошибка при получении ответа:", response.status_code)
-                print("Токен не получен")
+                logging.error("Ошибка при получении ответа:", response.status_code)
+                logging.info("Токен не получен")
 
     def get_iam_token(self) -> str:
         try:
