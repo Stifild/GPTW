@@ -38,8 +38,13 @@ class IOP:
         db.delete_user(user_id)
 
     def get_system_content(self, task: str, user_id: int) -> str:
-        return f"Сделай историю с жанром {self.get_user_data(user_id)['genre']}, главным героем {self.get_user_data(user_id)["main_chareckter"]}, сетингом {self.get_user_data(user_id)["setting"]} {f"и эта история должна учитывать это: {task}" if task.lower() != "продолжить без замечаний" else ""}."
-    
+        user_data = self.get_user_data(user_id)
+        genre = user_data['genre']
+        main_character = user_data["main_chareckter"]
+        setting = user_data["setting"]
+        task_message = f"и эта история должна учитывать это: {task}" if task.lower() != "продолжить без замечаний" else ""
+        return f"Сделай историю с жанром {genre}, главным героем {main_character}, сетингом {setting} {task_message}."
+
     def ask_gpt(self, user_id: int, task: str | None = None) -> str:
         message = json.loads(db.get_user_data(user_id)["messages"])
         if task:
