@@ -68,12 +68,12 @@ class Database:
     def get_user_data(self, user_id: int):
         result = self.executer(f"SELECT * FROM {DB_TABLE_USERS_NAME} WHERE user_id=?", (user_id,))
         presult = {
-            "sessions": result[2],
-            "tokens": result[3],
-            "subject": result[4],
-            "level": result[5],
-            "messages": result[6],
-            "is_blocked": result[7]
+            "sessions": result[0][2],
+            "tokens": result[0][3],
+            "subject": result[0][4],
+            "level": result[0][5],
+            "messages": result[0][6],
+            "is_blocked": result[0][7]
         }
         return presult
     
