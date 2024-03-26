@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-LOGS_PATH = ".\data\logs.log"
-DB_NAME = ".\data\database.db"
+LOGS_PATH = "./data/logs.log"
+DB_NAME = "./data/database.db"
 DB_TABLE_USERS_NAME = "users"
 
 FOLDER_ID = os.getenv('FOLDER_ID')
