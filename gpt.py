@@ -1,10 +1,11 @@
-import json, requests, logging, iop
+import json, requests, logging
+from iop import IOP
 
 from config import MAX_ONTASK_TOKENS, FOLDER_ID, GPT_MODEL, TEMPERATURE, TOKENS_DATA_PATH, LOGS_PATH
 
 logging.basicConfig(filename=LOGS_PATH, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filemode="w")
 
-io = iop.IOP()
+io = IOP()
 class GPT:
     def __init__(self):
         self.max_tokens = MAX_ONTASK_TOKENS
