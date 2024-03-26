@@ -1,7 +1,8 @@
-import telebot, logging, iop, json
+import telebot, logging, json
+from iop import IOP
 from config import LOGS_PATH, MAX_USERS, MAX_COUNT_OF_SESSIONS
 
-io = iop.IOP()
+io = IOP()
 
 logging.basicConfig(filename=LOGS_PATH, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', filemode="w")
 
