@@ -75,12 +75,12 @@ def select_setting(message):
     bot.send_message(user_id, "Отлично! Теперь если хочешь отправь какие-то свои замечания.", reply_markup=io.create_reply_markup(["Продолжить без замечаний"]))
     bot.register_next_step_handler(message, write_story)
 
-#todo: create promting system, save user's story and by limit stop logic
 def write_story(message):
     user_id = message.from_user.id
     task = message.text
     if task.lower() == "закончить":
         bot.send_message(user_id, "Возврашаюсь в меню.")
+        io.update_value(user_id, "library", json.dump([json.load(io.get_user_data(user_id)["library"])].append(io.get_user_data(user_id)["messages"])))
         menu(message)
         return
     bot.send_chat_action(user_id, "typing")
@@ -88,6 +88,7 @@ def write_story(message):
     bot.send_message(user_id, answer+"\n\nПродолжи отрвок.", reply_markup=io.create_reply_markup(["Закончить"]))
     bot.register_next_step_handler(message, write_story)
     if io.get_user_data(user_id)["tokens"] == 0:
+        io.update_value(user_id, "library", json.dump([json.load(io.get_user_data(user_id)["library"])].append(io.get_user_data(user_id)["messages"])))
         bot.send_message(user_id, "Лимит истории исчерпан. Возвращаюсь в меню.")
         menu(message)
     
