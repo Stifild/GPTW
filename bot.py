@@ -82,7 +82,7 @@ def write_story(message):
     task = message.text
     if task.lower() == "закончить":
         bot.send_message(user_id, "Возврашаюсь в меню.")
-        io.update_value(user_id, "library", json.dump([json.load(io.get_user_data(user_id)["library"])].append(io.get_user_data(user_id)["messages"])))
+        io.update_value(user_id, "library", json.dump([json.loads(io.get_user_data(user_id)["library"])].append(io.get_user_data(user_id)["messages"])))
         menu(message)
         return
     bot.send_chat_action(user_id, "typing")
