@@ -46,7 +46,10 @@ class IOP:
         return f"Сделай историю с жанром {genre}, главным героем {main_character}, сетингом {setting} {task_message}."
 
     def ask_gpt(self, user_id: int, task: str | None = None) -> str:
-        message = json.loads(db.get_user_data(user_id)["messages"])
+        try:
+            message = json.loads(db.get_user_data(user_id)["messages"])
+        except TypeError:
+            message = []
         if task:
             message.append({"role": "user", "content": task})
         answer = gpt.ask_gpt(message)
