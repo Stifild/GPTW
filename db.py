@@ -37,7 +37,7 @@ class Database:
             f"sessions INTEGER, "
             f"tokens INTEGER, "
             f"genre TEXT, "
-            f"main_chareckter TEXT, "
+            f"main_charecter TEXT, "
             f"setting TEXT, "
             f"messages TEXT, "
             f"is_blocked INTEGER, "
@@ -81,10 +81,12 @@ class Database:
             presult = {
                 "sessions": result[0][2],
                 "tokens": result[0][3],
-                "subject": result[0][4],
-                "level": result[0][5],
-                "messages": result[0][6],
-                "is_blocked": result[0][7]
+                "genry": result[0][4],
+                "main_charecter": result[0][5],
+                "setting": result[0][6],
+                "messages": result[0][7],
+                "is_blocked": result[0][8],
+                "library": result[0][9]
             }
             return presult
         except Exception as e:

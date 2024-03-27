@@ -34,6 +34,7 @@ def filter_choose_genre(message):
 def choose_genre(message):
     user_id = message.from_user.id
     io.update_value(user_id, "sessions", io.get_user_data(user_id)['sessions']+1)
+    io.update_value(user_id, "tokens", MAX_COUNT_OF_SESSIONS)
     bot.send_message(user_id, "Начало новой истории!!! Выбери жанр из списка или напиши свой.", reply_markup=io.create_reply_markup(io.get_genres()))
     bot.register_next_step_handler(message, select_genre)
 
