@@ -50,8 +50,8 @@ class Database:
         try:
             self.executer(
                 f"INSERT INTO {DB_TABLE_USERS_NAME} "
-                f"(user_id, sessions, is_blocked) "
-                f"VALUES (?, 0, 0);", (user_id,)
+                f"(user_id, sessions, is_blocked, library) "
+                f"VALUES (?, 0, 0, ?);", (user_id, "{}")
             )
             logging.info(f"Добавлен пользователь {user_id}")
         except Exception as e:
