@@ -57,7 +57,7 @@ def choose_main_character(message):
 def select_main_character(message):
     user_id = message.from_user.id
     character = message.text
-    io.update_value(user_id, "main_character", character)
+    io.update_value(user_id, "main_charecter", character)
     bot.send_message(user_id, "Отлично! Теперь выбери сеттинг или напиши свой.", reply_markup=io.create_reply_markup(io.get_settings()))
     bot.register_next_step_handler(message, select_setting)
 
