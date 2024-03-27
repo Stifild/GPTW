@@ -130,7 +130,7 @@ def show_library(message):
 
 def menu(message):
     user_id = message.from_user.id
-    bot.send_message(user_id, "Выбери действие:", reply_markup=io.create_reply_markup(["Начать новую историю", "Библлиотека историй", "Мои лимиты", "О боте"]))
+    bot.send_message(user_id, "Выбери действие:", reply_markup=io.create_reply_markup(["Начать новую историю", "Библиотека историй", "Мои лимиты", "О боте"]))
 
 bot.infinity_polling(none_stop=True)
     
