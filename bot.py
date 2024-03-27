@@ -119,9 +119,10 @@ def filter_show_library(message):
 @bot.message_handler(func=filter_show_library)
 def show_library(message):
     user_id = message.from_user.id
-    if io.get_user_data(user_id)["library"]:
+    library = io.get_user_data(user_id)["library"]
+    if library != "[]":
         bot.send_message(user_id, "Вот твои истории:")
-        for story in json.loads(io.get_user_data(user_id)["library"]):
+        for story in json.loads(library):
             bot.send_message(user_id, story)
         menu(message)
     bot.send_message(user_id, "Библиотека историй пуста. Возвращаюсь в меню.")
