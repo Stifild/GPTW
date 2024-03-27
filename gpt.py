@@ -102,7 +102,8 @@ class GPT:
         with open(TOKENS_DATA_PATH, "r") as f:
             logging.INFO("За всё время израсходовано:", json.load(f)["tokens_count"], "токенов")
     
-    def create_new_iam_token(self):
+    @classmethod
+    def create_new_iam_token():
         headers = {"Metadata-Flavor": "Google"}
 
         try:
