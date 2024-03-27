@@ -113,24 +113,9 @@ def show_about(message):
     bot.send_message(user_id, "Бот-сценарист создан для помощи в написании историй. Он использует нейросеть для генерации текста. Приятного использования!")
     menu(message)
 
-def filter_show_library(message):
-    return message.text.lower() in ["библиотека историй"] if not io.get_user_data(message.from_user.id)["is_blocked"] else False
-
-@bot.message_handler(func=filter_show_library)
-def show_library(message):
-    user_id = message.from_user.id
-    library = io.get_user_data(user_id)["library"]
-    if library != "[]" or library != "null":
-        bot.send_message(user_id, "Вот твои истории:")
-        for story in library:
-            bot.send_message(user_id, story)
-        menu(message)
-    bot.send_message(user_id, "Библиотека историй пуста. Возвращаюсь в меню.")
-    menu(message)
-
 def menu(message):
     user_id = message.from_user.id
-    bot.send_message(user_id, "Выбери действие:", reply_markup=io.create_reply_markup(["Начать новую историю", "Библиотека историй", "Мои лимиты", "О боте"]))
+    bot.send_message(user_id, "Выбери действие:", reply_markup=io.create_reply_markup(["Начать новую историю", "Мои лимиты", "О боте"]))
 
 bot.polling(none_stop=True)
     
