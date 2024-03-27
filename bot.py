@@ -122,7 +122,7 @@ def show_library(message):
     library = io.get_user_data(user_id)["library"]
     if library != "[]":
         bot.send_message(user_id, "Вот твои истории:")
-        for story in json.loads(library):
+        for story in library:
             bot.send_message(user_id, story)
         menu(message)
     bot.send_message(user_id, "Библиотека историй пуста. Возвращаюсь в меню.")
