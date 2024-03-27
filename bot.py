@@ -120,7 +120,7 @@ def filter_show_library(message):
 def show_library(message):
     user_id = message.from_user.id
     library = io.get_user_data(user_id)["library"]
-    if library != "[]":
+    if library != "[]" or library != "null":
         bot.send_message(user_id, "Вот твои истории:")
         for story in library:
             bot.send_message(user_id, story)
