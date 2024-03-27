@@ -103,7 +103,7 @@ class GPT:
             logging.INFO("За всё время израсходовано:", json.load(f)["tokens_count"], "токенов")
     
     @classmethod
-    def create_new_iam_token():
+    def create_new_iam_token(cls):
         headers = {"Metadata-Flavor": "Google"}
 
         try:
