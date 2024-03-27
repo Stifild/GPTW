@@ -47,45 +47,59 @@ class Database:
 
 
     def add_user(self, user_id: int):
-        self.executer(
-            f"INSERT INTO {DB_TABLE_USERS_NAME} "
-            f"(user_id, sessions, is_blocked) "
-            f"VALUES (?, 0, 0);", (user_id,)
-        )
-        logging.info(f"Добавлен пользователь {user_id}")
+        try:
+            self.executer(
+                f"INSERT INTO {DB_TABLE_USERS_NAME} "
+                f"(user_id, sessions, is_blocked) "
+                f"VALUES (?, 0, 0);", (user_id,)
+            )
+            logging.info(f"Добавлен пользователь {user_id}")
+        except Exception as e:
+            logging.error(f"Возникла ошибка при добавлении пользователя {user_id}: {e}")
 
 
     def check_user(self, user_id: int) -> bool:
-        result = self.executer(f"SELECT user_id FROM {DB_TABLE_USERS_NAME} WHERE user_id=?", (user_id,))
-        return bool(result)
+        try:
+            result = self.executer(f"SELECT user_id FROM {DB_TABLE_USERS_NAME} WHERE user_id=?", (user_id,))
+            return bool(result)
+        except Exception as e:
+            logging.error(f"Возникла ошибка при проверке пользователя {user_id}: {e}")
+        
 
 
     def update_value(self, user_id: int, column: str, value):
-        self.executer(f"UPDATE {DB_TABLE_USERS_NAME} SET {column}=? WHERE user_id=?", (value, user_id))
-        logging.info(f"Обновлено значение {column} для пользователя {user_id}")
+        try:
+            self.executer(f"UPDATE {DB_TABLE_USERS_NAME} SET {column}=? WHERE user_id=?", (value, user_id))
+            logging.info(f"Обновлено значение {column} для пользователя {user_id}")
+        except Exception as e:
+            logging.error(f"Возникла ошибка при обновлении значения {column} для пользователя {user_id}: {e}")
 
 
     def get_user_data(self, user_id: int):
-        result = self.executer(f"SELECT * FROM {DB_TABLE_USERS_NAME} WHERE user_id=?", (user_id,))
-        presult = {
-            "sessions": result[0][2],
-            "tokens": result[0][3],
-            "subject": result[0][4],
-            "level": result[0][5],
-            "messages": result[0][6],
-            "is_blocked": result[0][7]
-        }
-        return presult
+        try:
+            result = self.executer(f"SELECT * FROM {DB_TABLE_USERS_NAME} WHERE user_id=?", (user_id,))
+            presult = {
+                "sessions": result[0][2],
+                "tokens": result[0][3],
+                "subject": result[0][4],
+                "level": result[0][5],
+                "messages": result[0][6],
+                "is_blocked": result[0][7]
+            }
+            return presult
+        except Exception as e:
+            logging.error(f"Возникла ошибка при получении данных пользователя {user_id}: {e}")
     
     def get_all_users(self) -> list[tuple[int, int, int, int, str, str, str]]:
-        sql_query = (
-            f"SELECT * "
-            f"FROM {DB_TABLE_USERS_NAME};"
-        )
-
-        result = self.executer(sql_query)
-        return result
+        try:
+            result = self.executer(f"SELECT * FROM {DB_TABLE_USERS_NAME}")
+            return result
+        except Exception as e:
+            logging.error(f"Возникла ошибка при получении данных всех пользователей: {e}")
 
     def delete_user(self, user_id: int):
-        self.executer(f"DELETE FROM {DB_TABLE_USERS_NAME} WHERE user_id=?", (user_id,))
-        logging.warning(f"Удален пользователь {user_id}")
+        try:
+            self.executer(f"DELETE FROM {DB_TABLE_USERS_NAME} WHERE user_id=?", (user_id,))
+            logging.warning(f"Удален пользователь {user_id}")
+        except Exception as e:
+            logging.error(f"Возникла ошибка при удалении пользователя {user_id}: {e}")
