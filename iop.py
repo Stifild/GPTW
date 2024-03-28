@@ -1,6 +1,6 @@
 # Welcome to the IOP (Input/Output Processer) module.
 
-import json, dotenv, os, telebot, random, requests, time
+import json, dotenv, os, telebot, random
 
 os.mkdir("data") if not os.path.exists("data") else None
 
@@ -39,11 +39,18 @@ class IOP:
 
     def get_system_content(self, task: str, user_id: int) -> str:
         user_data = self.get_user_data(user_id)
-        genre = user_data['genre']
-        main_character = user_data["main_chareckter"]
-        setting = user_data["setting"]
-        task_message = f"и эта история должна учитывать это: {task}" if task.lower() != "продолжить без замечаний" else ""
-        return f"Сделай историю с жанром {genre}, главным героем {main_character}, сетингом {setting} {task_message}."
+        prompt = "Ты пишешь историю вместе с человеком. Историю вы пишете по очереди. Начинает человек, а ты продолжаешь. Если это уместно, ты можешь добавлять в историю диалог между персонажами. Диалоги пиши с новой строки и отделяй тире. Не пиши никакого пояснительного текста в начале, а просто логично продолжай историю."
+
+        prompt += (f"\nНапиши начало истории в стиле {user_data[user_id]['genre']} с главным героем {user_data[user_id]['main_charecter']}. "
+                f"Вот начальный сеттинг: \n{user_data[user_id]['setting']}. \n"
+                "Начало должно быть коротким, 1-3 предложения.\n")
+
+        if task:
+            prompt += (f"Также пользователь попросил учесть следующую дополнительную информацию: {user_data[user_id]['additional_info']} ")
+
+        prompt += 'Не пиши никакие подсказки пользователю, что делать дальше. Он сам знает'
+
+        return prompt 
 
     def ask_gpt(self, user_id: int, task: str | None = None) -> str:
         try:
