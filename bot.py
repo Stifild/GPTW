@@ -80,6 +80,8 @@ def select_setting(message):
 def write_story(message):
     user_id = message.from_user.id
     task = message.text
+    if io.get_user_data(user_id)["messages"] == "":
+        io.update_value(user_id, "messages", json.dumps(io.get_system_content(task, user_id)))
     if task.lower() == "закончить":
         bot.send_message(user_id, "Возврашаюсь в меню.")
         io.update_value(user_id, "library", json.dumps([json.loads(io.get_user_data(user_id)["library"])].append(io.get_user_data(user_id)["messages"])))
