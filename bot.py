@@ -83,8 +83,11 @@ def write_story(message):
     if io.get_user_data(user_id)["messages"] == "":
         io.update_value(user_id, "messages", json.dumps(io.get_system_content(task, user_id)))
     if task.lower() == "закончить":
-        bot.send_message(user_id, "Возврашаюсь в меню.")
-        io.update_value(user_id, "library", json.dumps([json.loads(io.get_user_data(user_id)["library"])].append(io.get_user_data(user_id)["messages"])))
+        dialoge = json.loads(io.get_user_data(user_id)["messages"])
+        for content in dialoge:
+            if content["role"] == "assistant":
+                history = content["content"]
+        bot.send_message(user_id, f"Вот ваша история.\n\n{history}\n\nВозврашаюсь в меню.")
         menu(message)
         return
     bot.send_chat_action(user_id, "typing")

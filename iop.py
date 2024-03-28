@@ -61,6 +61,7 @@ class IOP:
             message.append({"role": "user", "content": task})
         answer = gpt.ask_gpt(message)
         message.append({"role": "assistant", "content": answer})
+        self.update_value(user_id, "tokens", self.get_user_data(user_id)["tokens"]-self.count_tokens(task)-self.count_tokens(answer))
         self.update_value(user_id, "messages", json.dumps(message, ensure_ascii=False))
         return answer
     
