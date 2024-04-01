@@ -81,8 +81,7 @@ class IOP:
         return random.sample(self.genres, 4)
     
     def get_characters(self) -> list[str]:
-        return gpt.ask_gpt([{"role": "user", "content": "Сгенерируй список из любых трех главных героев. Отправь только их имена одной строчкой разделеный запятой."}]).split(", ")
+        return gpt.ask_gpt([{"role": "system", "content": "Сгенерируй список из любых трех главных героев. Отправь только их имена одной строчкой разделеный запятой."}]).split(", ")
     
     def get_settings(self) -> list[str]:
-        return gpt.ask_gpt([{"role": "user", "content": "Сгенерируй список из любых трех сеттингов. Отправь только их названия одной строчкой разделеный запятой."}]).split(", ")
-    
+        return gpt.ask_gpt([{"role": "system", "content": "Сгенерируй список из любых трех сеттингов. Отправь только их названия одной строчкой разделеный запятой."}]).split(", ")
